@@ -1,4 +1,10 @@
-This is the latest of multiplatform mobile apps that I have developed and published to the google play store.
+This is a multiplatform React Native camera app.
+Up until now, I have implemented these features in this app:
+<ol>
+<li>The ability to change between <b>front</b> and <b>back</b> camera.</li>
+<li>Flash mode.</li>
+<li>Capture button.</li>
+<li>The mechanism of asking for camera permissions.</li>
+</ol>
 
-
-I am following [this article](https://www.freecodecamp.org/news/how-to-create-a-camera-app-with-expo-and-react-native/) and have made a simple screen with button so far.
+**This is an Expo-managed app**
