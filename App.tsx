@@ -32,6 +32,7 @@ export default function App() {
     }
 
     const __savePhoto = () => {
+        // Todo: not yet implemented
     }
 
 
@@ -77,7 +78,8 @@ export default function App() {
                     }}
                 >
                     {previewVisible && capturedImage ? (
-                        <CameraPreview photo={capturedImage} savePhoto={__savePhoto} retakePicture={__retakePicture}/>
+                        <CapturedPhotoPreview photo={capturedImage} savePhoto={__savePhoto}
+                                              retakePicture={__retakePicture}/>
                     ) : (
                         <Camera
                             type={cameraType}
@@ -212,8 +214,14 @@ export default function App() {
     )
 }
 
-const CameraPreview = ({photo, retakePicture, savePhoto}: any) => {
-    console.log('sdsfds', photo)
+type CapturedPhotoPreviewProps = {
+    photo: CameraCapturedPicture;
+    retakePicture: () => void;
+    savePhoto: () => void;
+};
+
+const CapturedPhotoPreview = ({photo, retakePicture, savePhoto}: CapturedPhotoPreviewProps) => {
+    console.log('the captured photo is this:', photo);
     return (
         <View
             style={{
