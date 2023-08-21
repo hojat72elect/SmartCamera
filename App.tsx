@@ -1,6 +1,6 @@
 import {StatusBar} from 'expo-status-bar'
 import React from 'react'
-import {Alert, ImageBackground, StyleSheet, Text, TouchableOpacity, View} from 'react-native'
+import {Alert, ImageBackground, Text, TouchableOpacity, View} from 'react-native'
 import {Camera, CameraCapturedPicture, CameraType, FlashMode, PermissionStatus} from 'expo-camera'
 
 
@@ -63,7 +63,12 @@ export default function App() {
 
 
     return (
-        <View style={styles.container}>
+        <View style={{
+            flex: 1,
+            backgroundColor: '#fff',
+            alignItems: 'center',
+            justifyContent: 'center'
+        }}>
             {startCamera ? (
                 <View
                     style={{
@@ -206,15 +211,6 @@ export default function App() {
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center'
-    }
-})
 
 const CameraPreview = ({photo, retakePicture, savePhoto}: any) => {
     console.log('sdsfds', photo)
