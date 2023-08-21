@@ -1,28 +1,19 @@
 import {StatusBar} from 'expo-status-bar'
-import React from 'react'
-import {Alert, ImageBackground, StyleSheet, Text, TouchableOpacity, View} from 'react-native'
-import {Camera, CameraCapturedPicture, CameraType, FlashMode, PermissionStatus} from 'expo-camera'
+import {useState} from 'react'
+import {ImageBackground, Text, TouchableOpacity, View} from 'react-native'
+import {Camera, CameraCapturedPicture, CameraType, FlashMode} from 'expo-camera'
+import {StartCameraUseCase} from "./src/usecases/StartCameraUseCase";
 
 
 export default function App() {
 
     let camera: Camera | null;
 
-    const [startCamera, setStartCamera] = React.useState(false)
-    const [previewVisible, setPreviewVisible] = React.useState(false)
-    const [capturedImage, setCapturedImage] = React.useState<CameraCapturedPicture | null>(null)
-    const [cameraType, setCameraType] = React.useState(CameraType.back);
-    const [flashMode, setFlashMode] = React.useState(FlashMode.off);
-
-    const __startCamera = async () => {
-        const {status} = await Camera.requestCameraPermissionsAsync();
-        console.log(status)
-        if (status === PermissionStatus.GRANTED) {
-            setStartCamera(true)
-        } else {
-            Alert.alert('Access denied')
-        }
-    }
+    const [startCamera, setStartCamera] = useState(false)
+    const [previewVisible, setPreviewVisible] = useState(false)
+    const [capturedImage, setCapturedImage] = useState<CameraCapturedPicture | null>(null)
+    const [cameraType, setCameraType] = useState(CameraType.back);
+    const [flashMode, setFlashMode] = useState(FlashMode.off);
 
     const __takePicture = async () => {
         const photo = await camera?.takePictureAsync();
@@ -38,7 +29,9 @@ export default function App() {
     const __retakePicture = () => {
         setCapturedImage(null);
         setPreviewVisible(false);
-        __startCamera();
+        StartCameraUseCase.execute().then((result) => {
+            setStartCamera(result);
+        });
     }
 
 
@@ -63,7 +56,12 @@ export default function App() {
 
 
     return (
-        <View style={styles.container}>
+        <View style={{
+            flex: 1,
+            backgroundColor: '#fff',
+            alignItems: 'center',
+            justifyContent: 'center'
+        }}>
             {startCamera ? (
                 <View
                     style={{
@@ -178,7 +176,11 @@ export default function App() {
                     }}
                 >
                     <TouchableOpacity
-                        onPress={__startCamera}
+                        onPress={() => {
+                            StartCameraUseCase.execute().then((result) => {
+                                setStartCamera(result);
+                            });
+                        }}
                         style={{
                             width: 130,
                             borderRadius: 4,
@@ -207,17 +209,8 @@ export default function App() {
     )
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center'
-    }
-})
-
 const CameraPreview = ({photo, retakePicture, savePhoto}: any) => {
-    console.log('sdsfds', photo)
+    console.log(photo);
     return (
         <View
             style={{
