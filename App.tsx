@@ -3,8 +3,8 @@ import {useState} from 'react'
 import {Alert, Text, TouchableOpacity, View} from 'react-native'
 import {Camera, CameraCapturedPicture, CameraType, FlashMode, PermissionStatus} from 'expo-camera'
 import {RootSiblingParent} from 'react-native-root-siblings';
-import Toast from 'react-native-root-toast';
 import {CapturedPhotoPreview} from "./src/ui/CapturedPhotoPreview";
+import {SavePhotoToDeviceUseCase} from "./src/usecases/SavePhotoToDeviceUseCase";
 
 export default function App() {
 
@@ -33,13 +33,6 @@ export default function App() {
             console.log(photo);
             setCapturedPhotoPreviewVisibility(true);
             setCapturedImage(photo);
-        });
-    }
-
-    function savePhotoToDevice() {
-        // Todo: to be implemented later.
-        Toast.show('This feature has not been implemented yet!', {
-            duration: Toast.durations.SHORT,
         });
     }
 
@@ -84,7 +77,9 @@ export default function App() {
                             <CapturedPhotoPreview
                                 photo={capturedImage}
                                 retakePicture={retakePicture}
-                                savePhoto={savePhotoToDevice}
+                                savePhoto={() => {
+                                    SavePhotoToDeviceUseCase.execute();
+                                }}
                             />
                         ) : (
                             <Camera
