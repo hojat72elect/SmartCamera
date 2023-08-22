@@ -11,8 +11,14 @@ type CapturedPhotoPreviewProps = {
  * When user takes a picture, they will see a preview of
  * it in this page and will be allowed to either save or
  * re-take the picture.
+ *
+ * @param photo The picture that was taken by user, and we show in here.
+ * @param retakePicture The function that will be called when user clicks on "Re-take".
+ * @param savePhoto The function that will be called when user clicks on "Save Photo".
+ *
  */
 export const CapturedPhotoPreview = ({photo, retakePicture, savePhoto}: CapturedPhotoPreviewProps) => {
+
     console.log('the captured photo is this:', photo);
     return (
         <View

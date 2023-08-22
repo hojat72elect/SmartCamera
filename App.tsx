@@ -11,7 +11,7 @@ export default function App() {
     let camera: Camera | null;
 
     const [isCameraPermissionGranted, setCameraPermission] = useState(false)
-    const [previewVisible, setPreviewVisible] = useState(false)
+    const [isCapturedPhotoPreviewVisible, setCapturedPhotoPreviewVisibility] = useState(false)
     const [capturedImage, setCapturedImage] = useState<CameraCapturedPicture | null>(null)
     const [cameraType, setCameraType] = useState(CameraType.back);
     const [flashMode, setFlashMode] = useState(FlashMode.off);
@@ -31,7 +31,7 @@ export default function App() {
     function takePicture() {
         camera?.takePictureAsync().then(photo => {
             console.log(photo);
-            setPreviewVisible(true);
+            setCapturedPhotoPreviewVisibility(true);
             setCapturedImage(photo);
         });
     }
@@ -45,7 +45,7 @@ export default function App() {
 
     function retakePicture() {
         setCapturedImage(null);
-        setPreviewVisible(false);
+        setCapturedPhotoPreviewVisibility(false);
         askForCameraPermission();
     }
 
@@ -80,9 +80,12 @@ export default function App() {
                             width: '100%'
                         }}
                     >
-                        {previewVisible && capturedImage ? (
-                            <CapturedPhotoPreview photo={capturedImage} savePhoto={savePhotoToDevice}
-                                                  retakePicture={retakePicture}/>
+                        {isCapturedPhotoPreviewVisible && capturedImage ? (
+                            <CapturedPhotoPreview
+                                photo={capturedImage}
+                                retakePicture={retakePicture}
+                                savePhoto={savePhotoToDevice}
+                            />
                         ) : (
                             <Camera
                                 type={cameraType}
